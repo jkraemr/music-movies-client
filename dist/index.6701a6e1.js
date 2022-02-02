@@ -945,32 +945,26 @@ var _react = require("react");
 var _reactDefault = parcelHelpers.interopDefault(_react);
 var _reactDom = require("react-dom");
 var _reactDomDefault = parcelHelpers.interopDefault(_reactDom);
-// Import statement to indicate that you need to bundle `./index.scss`
+// Import MainView root component / no file extension needed when importing from js or jsx files in React
+var _mainView = require("./components/main-view/main-view");
+// Import statement to indicate that ./index.scss needs to be bundled
 var _indexScss = require("./index.scss");
 // Main component (will eventually use all the others)
 class MyMusicMoviesApplication extends _reactDefault.default.Component {
     render() {
-        return(/*#__PURE__*/ _jsxRuntime.jsx("div", {
-            className: "my-music-movies",
+        return(// Use MainView component via short format (<MainView />) opposed to <MainView></MainView>
+        /*#__PURE__*/ _jsxRuntime.jsx(_mainView.MainView, {
             __source: {
                 fileName: "src/index.jsx",
-                lineNumber: 11
+                lineNumber: 15
             },
-            __self: this,
-            children: /*#__PURE__*/ _jsxRuntime.jsx("div", {
-                __source: {
-                    fileName: "src/index.jsx",
-                    lineNumber: 12
-                },
-                __self: this,
-                children: "Good morning"
-            })
+            __self: this
         }));
     }
 }
-// Finds the root of your app
+// Finds the root of the app
 const container = document.getElementsByClassName('app-container')[0];
-// Tells React to render your app in the root DOM element
+// Tells React to render the app in the root DOM element
 _reactDomDefault.default.render(/*#__PURE__*/ _reactDefault.default.createElement(MyMusicMoviesApplication), container);
 
   $parcel$ReactRefreshHelpers$b058.postlude(module);
@@ -978,7 +972,7 @@ _reactDomDefault.default.render(/*#__PURE__*/ _reactDefault.default.createElemen
   window.$RefreshReg$ = prevRefreshReg;
   window.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-runtime":"8xIwr","react":"6TuXu","react-dom":"gkWJK","./index.scss":"jUTZ8","@parcel/transformer-js/src/esmodule-helpers.js":"11S9z","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"8CbOX"}],"8xIwr":[function(require,module,exports) {
+},{"react/jsx-runtime":"8xIwr","react":"6TuXu","react-dom":"gkWJK","./components/main-view/main-view":"2zHas","./index.scss":"jUTZ8","@parcel/transformer-js/src/esmodule-helpers.js":"11S9z","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"8CbOX"}],"8xIwr":[function(require,module,exports) {
 'use strict';
 module.exports = require('./cjs/react-jsx-runtime.development.js');
 
@@ -22736,7 +22730,155 @@ module.exports = require('./cjs/scheduler-tracing.development.js');
     exports.unstable_wrap = unstable_wrap;
 })();
 
-},{}],"jUTZ8":[function() {},{}],"11S9z":[function(require,module,exports) {
+},{}],"2zHas":[function(require,module,exports) {
+var $parcel$ReactRefreshHelpers$35bf = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
+var prevRefreshReg = window.$RefreshReg$;
+var prevRefreshSig = window.$RefreshSig$;
+$parcel$ReactRefreshHelpers$35bf.prelude(module);
+
+try {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+// export keyword = exposes MainView component = make it available (importable) for use by other components, modules, files
+// class keyword states that component is a class component (opposed to a function component)
+// MainView = component's name
+// React.Component = template/blueprint for creating new components
+parcelHelpers.export(exports, "MainView", ()=>MainView
+);
+var _jsxRuntime = require("react/jsx-runtime");
+//  Import React into the file + allow to create new instances of the generic React.Component component
+var _react = require("react");
+var _reactDefault = parcelHelpers.interopDefault(_react);
+// Import statements to import MovieCard / MovieView components into MainView component
+var _movieCard = require("../movie-card/movie-card");
+var _movieView = require("../movie-view/movie-view");
+class MainView extends _reactDefault.default.Component {
+    // constructor method = React uses this method to create the component. The code inside it will be the first thing to be executed for a component, hence this method represents the moment a component is created in the memory.
+    constructor(){
+        // super = initializes the component's state = needed when component needs a local state, can otherwise be ommited
+        super();
+        this.state = {
+            // Starting value of the MainView state is initialized with an object containing movies that holds an array of movies
+            movies: [
+                {
+                    _id: 1,
+                    Title: 'Inception',
+                    Description: 'desc1...',
+                    ImagePath: '...'
+                },
+                {
+                    _id: 2,
+                    Title: 'The Shawshank Redemption',
+                    Description: 'desc2...',
+                    ImagePath: '...'
+                },
+                {
+                    _id: 3,
+                    Title: 'Gladiator',
+                    Description: 'desc3...',
+                    ImagePath: '...'
+                }
+            ],
+            selectedMovie: null
+        };
+    }
+    setSelectedMovie(newSelectedMovie) {
+        this.setState({
+            selectedMovie: newSelectedMovie
+        });
+    }
+    // render(); function = returns the visual representation of the component = renders what is displayed on screen using JSX = can only have one root element (fix/wrap several root elements with <React.Fragment></React.Fragment> or shorthand <></>)
+    render() {
+        // const { movies, selectedMovie } = this.state is ES 6 featured called "object destruction"
+        const { movies , selectedMovie  } = this.state;
+        // JSX: assign classes to elements with className oppsed to class
+        if (movies.length === 0) return(/*#__PURE__*/ _jsxRuntime.jsx("div", {
+            className: "main-view",
+            __source: {
+                fileName: "src/components/main-view/main-view.jsx",
+                lineNumber: 41
+            },
+            __self: this,
+            children: "No movies listed yet."
+        }));
+        return(/*#__PURE__*/ _jsxRuntime.jsx("div", {
+            className: "main-view",
+            __source: {
+                fileName: "src/components/main-view/main-view.jsx",
+                lineNumber: 44
+            },
+            __self: this,
+            children: selectedMovie ? /*#__PURE__*/ _jsxRuntime.jsx(_movieView.MovieView, {
+                movie: selectedMovie,
+                onBackClick: (newSelectedMovie)=>{
+                    this.setSelectedMovie(newSelectedMovie);
+                },
+                __source: {
+                    fileName: "src/components/main-view/main-view.jsx",
+                    lineNumber: 46
+                },
+                __self: this
+            }) : movies.map((movie)=>// key = helps React to distinguish between similar elements in list / find respective element that needs to be changed = needed when there is a list of elements of the same type rendered next to each other = here, a list of <div></div> elements) = uses unique ID property of each movie
+                /*#__PURE__*/ _jsxRuntime.jsx(_movieCard.MovieCard, {
+                    movie: movie,
+                    onMovieClick: (movie1)=>{
+                        this.setSelectedMovie(movie1);
+                    },
+                    __source: {
+                        fileName: "src/components/main-view/main-view.jsx",
+                        lineNumber: 50
+                    },
+                    __self: this
+                }, movie._id)
+            )
+        }));
+    }
+}
+
+  $parcel$ReactRefreshHelpers$35bf.postlude(module);
+} finally {
+  window.$RefreshReg$ = prevRefreshReg;
+  window.$RefreshSig$ = prevRefreshSig;
+}
+},{"react/jsx-runtime":"8xIwr","react":"6TuXu","../movie-card/movie-card":"6EiBJ","../movie-view/movie-view":"ikZdr","@parcel/transformer-js/src/esmodule-helpers.js":"11S9z","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"8CbOX"}],"6EiBJ":[function(require,module,exports) {
+var $parcel$ReactRefreshHelpers$4249 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
+var prevRefreshReg = window.$RefreshReg$;
+var prevRefreshSig = window.$RefreshSig$;
+$parcel$ReactRefreshHelpers$4249.prelude(module);
+
+try {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "MovieCard", ()=>MovieCard
+);
+var _jsxRuntime = require("react/jsx-runtime");
+var _react = require("react");
+var _reactDefault = parcelHelpers.interopDefault(_react);
+class MovieCard extends _reactDefault.default.Component {
+    render() {
+        // props property = pass data from the component's state to one of its child components = extract data = get the passed data by accessing a props property, similar to how the data arre accessed from this.state
+        const { movie , onMovieClick  } = this.props;
+        return(/*#__PURE__*/ _jsxRuntime.jsx("div", {
+            className: "movie-card",
+            onClick: ()=>{
+                onMovieClick(movie);
+            },
+            __source: {
+                fileName: "src/components/movie-card/movie-card.jsx",
+                lineNumber: 8
+            },
+            __self: this,
+            children: movie.Title
+        }));
+    }
+}
+
+  $parcel$ReactRefreshHelpers$4249.postlude(module);
+} finally {
+  window.$RefreshReg$ = prevRefreshReg;
+  window.$RefreshSig$ = prevRefreshSig;
+}
+},{"react/jsx-runtime":"8xIwr","react":"6TuXu","@parcel/transformer-js/src/esmodule-helpers.js":"11S9z","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"8CbOX"}],"11S9z":[function(require,module,exports) {
 exports.interopDefault = function(a) {
     return a && a.__esModule ? a : {
         default: a
@@ -22888,6 +23030,124 @@ function registerExportsForReactRefresh(module) {
     }
 }
 
-},{"react-refresh/runtime":"8nf9Y"}]},["bNEwE","dn1oH","dLPEP"], "dLPEP", "parcelRequirecd0a")
+},{"react-refresh/runtime":"8nf9Y"}],"ikZdr":[function(require,module,exports) {
+var $parcel$ReactRefreshHelpers$3741 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
+var prevRefreshReg = window.$RefreshReg$;
+var prevRefreshSig = window.$RefreshSig$;
+$parcel$ReactRefreshHelpers$3741.prelude(module);
+
+try {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "MovieView", ()=>MovieView
+);
+var _jsxRuntime = require("react/jsx-runtime");
+var _react = require("react");
+var _reactDefault = parcelHelpers.interopDefault(_react);
+class MovieView extends _reactDefault.default.Component {
+    render() {
+        const { movie , onBackClick  } = this.props;
+        return(/*#__PURE__*/ _jsxRuntime.jsxs("div", {
+            className: "movie-view",
+            __source: {
+                fileName: "src/components/movie-view/movie-view.jsx",
+                lineNumber: 7
+            },
+            __self: this,
+            children: [
+                /*#__PURE__*/ _jsxRuntime.jsx("div", {
+                    className: "movie-image",
+                    __source: {
+                        fileName: "src/components/movie-view/movie-view.jsx",
+                        lineNumber: 8
+                    },
+                    __self: this,
+                    children: /*#__PURE__*/ _jsxRuntime.jsx("img", {
+                        src: movie.ImagePath,
+                        __source: {
+                            fileName: "src/components/movie-view/movie-view.jsx",
+                            lineNumber: 9
+                        },
+                        __self: this
+                    })
+                }),
+                /*#__PURE__*/ _jsxRuntime.jsxs("div", {
+                    className: "movie-title",
+                    __source: {
+                        fileName: "src/components/movie-view/movie-view.jsx",
+                        lineNumber: 11
+                    },
+                    __self: this,
+                    children: [
+                        /*#__PURE__*/ _jsxRuntime.jsx("span", {
+                            className: "label",
+                            __source: {
+                                fileName: "src/components/movie-view/movie-view.jsx",
+                                lineNumber: 12
+                            },
+                            __self: this,
+                            children: "Title: "
+                        }),
+                        /*#__PURE__*/ _jsxRuntime.jsx("span", {
+                            className: "value",
+                            __source: {
+                                fileName: "src/components/movie-view/movie-view.jsx",
+                                lineNumber: 13
+                            },
+                            __self: this,
+                            children: movie.Title
+                        })
+                    ]
+                }),
+                /*#__PURE__*/ _jsxRuntime.jsxs("div", {
+                    className: "movie-description",
+                    __source: {
+                        fileName: "src/components/movie-view/movie-view.jsx",
+                        lineNumber: 15
+                    },
+                    __self: this,
+                    children: [
+                        /*#__PURE__*/ _jsxRuntime.jsx("span", {
+                            className: "label",
+                            __source: {
+                                fileName: "src/components/movie-view/movie-view.jsx",
+                                lineNumber: 16
+                            },
+                            __self: this,
+                            children: "Description: "
+                        }),
+                        /*#__PURE__*/ _jsxRuntime.jsx("span", {
+                            className: "value",
+                            __source: {
+                                fileName: "src/components/movie-view/movie-view.jsx",
+                                lineNumber: 17
+                            },
+                            __self: this,
+                            children: movie.Description
+                        })
+                    ]
+                }),
+                /*#__PURE__*/ _jsxRuntime.jsx("button", {
+                    onClick: ()=>{
+                        onBackClick(null);
+                    },
+                    __source: {
+                        fileName: "src/components/movie-view/movie-view.jsx",
+                        lineNumber: 19
+                    },
+                    __self: this,
+                    children: "Back"
+                })
+            ]
+        }));
+    }
+}
+
+  $parcel$ReactRefreshHelpers$3741.postlude(module);
+} finally {
+  window.$RefreshReg$ = prevRefreshReg;
+  window.$RefreshSig$ = prevRefreshSig;
+}
+},{"react/jsx-runtime":"8xIwr","react":"6TuXu","@parcel/transformer-js/src/esmodule-helpers.js":"11S9z","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"8CbOX"}],"jUTZ8":[function() {},{}]},["bNEwE","dn1oH","dLPEP"], "dLPEP", "parcelRequirecd0a")
 
 //# sourceMappingURL=index.6701a6e1.js.map
