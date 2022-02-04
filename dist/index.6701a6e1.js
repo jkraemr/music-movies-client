@@ -22739,7 +22739,7 @@ $parcel$ReactRefreshHelpers$35bf.prelude(module);
 try {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
-// export keyword = exposes MainView component = make it available (importable) for use by other components, modules, files
+// export keyword = exposes MainView component, make it available (importable) for use by other components, modules, files
 // class keyword states that component is a class component (opposed to a function component)
 // MainView = component's name
 // React.Component = template/blueprint for creating new components
@@ -22755,48 +22755,52 @@ var _movieView = require("../movie-view/movie-view");
 class MainView extends _reactDefault.default.Component {
     // constructor method = React uses this method to create the component. The code inside it will be the first thing to be executed for a component, hence this method represents the moment a component is created in the memory.
     constructor(){
-        // super = initializes the component's state = needed when component needs a local state, can otherwise be ommited
+        // super = initializes the component's state = needed when component needs a local state, may otherwise be ommited
         super();
+        // Component's state = set of variables with special rules which a) serve to store data so that it can be used later on, b) represent what the UI should look like
         this.state = {
             // Starting value of the MainView state is initialized with an object containing movies that holds an array of movies
             movies: [
                 {
                     _id: 1,
-                    Title: 'Inception',
-                    Description: 'desc1...',
+                    Title: 'Pulse',
+                    Description: 'Pulse is a concert video by Pink Floyd of their 20 October 1994 concert at Earls Court, London, England during The Division Bell Tour. It was originally released on VHS and Laserdisc in June 1995, with a DVD release coming in July 2006, the latter release containing numerous bonus features.',
                     ImagePath: '...'
                 },
                 {
                     _id: 2,
-                    Title: 'The Shawshank Redemption',
-                    Description: 'desc2...',
+                    Title: 'Pink Floyd: Live at Pompeii',
+                    Description: 'Pink Floyd: Live at Pompeii is a 1972 concert documentary film directed by Adrian Maben and featuring the English rock group Pink Floyd performing at the ancient Roman amphitheatre in Pompeii, Italy.',
                     ImagePath: '...'
                 },
                 {
                     _id: 3,
-                    Title: 'Gladiator',
-                    Description: 'desc3...',
+                    Title: 'Control',
+                    Description: 'Control is a 2007 British biographical film about the life of Ian Curtis, singer of the late-1970s English post-punk band Joy Division. It is the first feature film directed by Anton Corbijn, who had worked with Joy Division as a photographer.',
                     ImagePath: '...'
                 }
             ],
+            // Add new state variable into this copoment's state object called selectedMovie, initial value is null which tells the app that no movie vards were clicked, if there is a click, selectedMovie is updated to refer to the movie object that was clicked
             selectedMovie: null
         };
     }
     setSelectedMovie(newSelectedMovie) {
+        // To change a state, React requuires the this.setState method which always takes an object that contains the new value that is supposed to be assigned to a spcific state in the form of a key-value pair:
         this.setState({
             selectedMovie: newSelectedMovie
         });
     }
-    // render(); function = returns the visual representation of the component = renders what is displayed on screen using JSX = can only have one root element (fix/wrap several root elements with <React.Fragment></React.Fragment> or shorthand <></>)
+    // render(); function returns the visual representation of the component, renders what is displayed on screen using JSX, can only have one root element (fix/wrap several root elements with <React.Fragment></React.Fragment> or shorthand <></>)
     render() {
         // const { movies, selectedMovie } = this.state is ES 6 featured called "object destruction"
+        // Add state (selectedMovie) as a flag to decide whether to render a specific part of the UI (MovieView) in the MainView component
         const { movies , selectedMovie  } = this.state;
-        // JSX: assign classes to elements with className oppsed to class
+        // JSX: assign classes to elements with className opposed to class
         if (movies.length === 0) return(/*#__PURE__*/ _jsxRuntime.jsx("div", {
             className: "main-view",
             __source: {
                 fileName: "src/components/main-view/main-view.jsx",
-                lineNumber: 41
+                lineNumber: 44
             },
             __self: this,
             children: "No movies listed yet."
@@ -22805,7 +22809,7 @@ class MainView extends _reactDefault.default.Component {
             className: "main-view",
             __source: {
                 fileName: "src/components/main-view/main-view.jsx",
-                lineNumber: 44
+                lineNumber: 47
             },
             __self: this,
             children: selectedMovie ? /*#__PURE__*/ _jsxRuntime.jsx(_movieView.MovieView, {
@@ -22815,10 +22819,12 @@ class MainView extends _reactDefault.default.Component {
                 },
                 __source: {
                     fileName: "src/components/main-view/main-view.jsx",
-                    lineNumber: 46
+                    lineNumber: 49
                 },
                 __self: this
-            }) : movies.map((movie)=>// key = helps React to distinguish between similar elements in list / find respective element that needs to be changed = needed when there is a list of elements of the same type rendered next to each other = here, a list of <div></div> elements) = uses unique ID property of each movie
+            }) : movies.map((movie)=>// key = helps React to distinguish between similar elements in list / find respective element that needs to be changed, needed when there is a list of elements of the same type rendered next to each other, here a list of <div></div> elements), uses unique ID property of each movie
+                // movie={movie} = custom attribute called 'props' which passes data to a child component, here: use movie data within the MovieCard component, the movie object is passed from each iteration of the map() function to <MovieCard key={movie._id} />
+                // To change the state, a function from the MainView component is passed to <MovieCard /> as a prop that executes this.state.selectedMovie = movie;. This way this.state.selectedMovie will be identifiable by its owner, the MainView. Also, it will rightfully change its own state once the function is called
                 /*#__PURE__*/ _jsxRuntime.jsx(_movieCard.MovieCard, {
                     movie: movie,
                     onMovieClick: (movie1)=>{
@@ -22826,7 +22832,7 @@ class MainView extends _reactDefault.default.Component {
                     },
                     __source: {
                         fileName: "src/components/main-view/main-view.jsx",
-                        lineNumber: 50
+                        lineNumber: 55
                     },
                     __self: this
                 }, movie._id)
@@ -22856,8 +22862,10 @@ var _react = require("react");
 var _reactDefault = parcelHelpers.interopDefault(_react);
 class MovieCard extends _reactDefault.default.Component {
     render() {
-        // props property = pass data from the component's state to one of its child components = extract data = get the passed data by accessing a props property, similar to how the data arre accessed from this.state
+        // props are used to pass data from a parent component's (e.g., MainView) state to one of its child components (this one), here to extract data, get the passed data by accessing a props property, similar to how the data are accessed from this.state
+        // also extracting the onMovieClick prop using object destructuring
         const { movie , onMovieClick  } = this.props;
+        // use onMovieClick prop in the callback function for the onClick event listener, add callback function to onClick, added logic to execute once a click event is registered which is onMovieClick(movie); , movue passed to onMovieClick(...); is the prop wich has been extracted earlier. 
         return(/*#__PURE__*/ _jsxRuntime.jsx("div", {
             className: "movie-card",
             onClick: ()=>{
@@ -22865,7 +22873,7 @@ class MovieCard extends _reactDefault.default.Component {
             },
             __source: {
                 fileName: "src/components/movie-card/movie-card.jsx",
-                lineNumber: 8
+                lineNumber: 10
             },
             __self: this,
             children: movie.Title
@@ -23039,6 +23047,7 @@ $parcel$ReactRefreshHelpers$3741.prelude(module);
 try {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
+// Component that expects a prop ( named movie ), prop represents the movie object which will be passed in MainView, component will render whatever properties in the movie object are passed as a prop (here the properties: movie.Title, movie.Description, movie.ImagePath)
 parcelHelpers.export(exports, "MovieView", ()=>MovieView
 );
 var _jsxRuntime = require("react/jsx-runtime");
