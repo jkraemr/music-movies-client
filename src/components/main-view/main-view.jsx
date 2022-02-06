@@ -1,5 +1,6 @@
 //  Import React into the file + allow to create new instances of the generic React.Component component
 import React from 'react';
+import PropTypes from 'prop-types';
 // Axios is a promise-based HTTP Client for node.js and the browser, here used to fetch the movies, then set the state of movues using "this.setState"
 import axios from 'axios';
 
@@ -94,3 +95,24 @@ export class MainView extends React.Component {
     );
   }
 }
+
+// propTypes
+MovieView.propTypes = {
+  movie: PropTypes.shape({
+    _id: PropTypes.string.isRequired,
+    Title: PropTypes.string.isRequired,
+    Description: PropTypes.string.isRequired,
+    Genre: PropTypes.shape({
+      Name: PropTypes.string.isRequired,
+      Description: PropTypes.string.isRequired,
+    }).isRequired,
+    Director: PropTypes.shape({
+      Name: PropTypes.string.isRequired,
+      Bio: PropTypes.string,
+      Birth: PropTypes.string,
+    }).isRequired,
+    ImagePath: PropTypes.string.isRequired,
+    Featured: PropTypes.bool.isRequired,
+  }).isRequired,
+  onBackClick: PropTypes.func.isRequired
+};

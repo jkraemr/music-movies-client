@@ -22749,6 +22749,8 @@ var _jsxRuntime = require("react/jsx-runtime");
 //  Import React into the file + allow to create new instances of the generic React.Component component
 var _react = require("react");
 var _reactDefault = parcelHelpers.interopDefault(_react);
+var _propTypes = require("prop-types");
+var _propTypesDefault = parcelHelpers.interopDefault(_propTypes);
 // Axios is a promise-based HTTP Client for node.js and the browser, here used to fetch the movies, then set the state of movues using "this.setState"
 var _axios = require("axios");
 var _axiosDefault = parcelHelpers.interopDefault(_axios);
@@ -22812,7 +22814,7 @@ class MainView extends _reactDefault.default.Component {
             ,
             __source: {
                 fileName: "src/components/main-view/main-view.jsx",
-                lineNumber: 74
+                lineNumber: 75
             },
             __self: this
         }));
@@ -22822,7 +22824,7 @@ class MainView extends _reactDefault.default.Component {
             className: "main-view",
             __source: {
                 fileName: "src/components/main-view/main-view.jsx",
-                lineNumber: 78
+                lineNumber: 79
             },
             __self: this
         }));
@@ -22830,7 +22832,7 @@ class MainView extends _reactDefault.default.Component {
             className: "main-view",
             __source: {
                 fileName: "src/components/main-view/main-view.jsx",
-                lineNumber: 81
+                lineNumber: 82
             },
             __self: this,
             children: selectedMovie ? /*#__PURE__*/ _jsxRuntime.jsx(_movieView.MovieView, {
@@ -22840,7 +22842,7 @@ class MainView extends _reactDefault.default.Component {
                 },
                 __source: {
                     fileName: "src/components/main-view/main-view.jsx",
-                    lineNumber: 84
+                    lineNumber: 85
                 },
                 __self: this
             }) : movies.map((movie)=>// key = helps React to distinguish between similar elements in list / find respective element that needs to be changed, needed when there is a list of elements of the same type rendered next to each other, here a list of <div></div> elements), uses unique ID property of each movie
@@ -22853,7 +22855,7 @@ class MainView extends _reactDefault.default.Component {
                     },
                     __source: {
                         fileName: "src/components/main-view/main-view.jsx",
-                        lineNumber: 90
+                        lineNumber: 91
                     },
                     __self: this
                 }, movie._id)
@@ -22861,13 +22863,33 @@ class MainView extends _reactDefault.default.Component {
         }));
     }
 }
+// propTypes
+_movieView.MovieView.propTypes = {
+    movie: _propTypesDefault.default.shape({
+        _id: _propTypesDefault.default.string.isRequired,
+        Title: _propTypesDefault.default.string.isRequired,
+        Description: _propTypesDefault.default.string.isRequired,
+        Genre: _propTypesDefault.default.shape({
+            Name: _propTypesDefault.default.string.isRequired,
+            Description: _propTypesDefault.default.string.isRequired
+        }).isRequired,
+        Director: _propTypesDefault.default.shape({
+            Name: _propTypesDefault.default.string.isRequired,
+            Bio: _propTypesDefault.default.string,
+            Birth: _propTypesDefault.default.string
+        }).isRequired,
+        ImagePath: _propTypesDefault.default.string.isRequired,
+        Featured: _propTypesDefault.default.bool.isRequired
+    }).isRequired,
+    onBackClick: _propTypesDefault.default.func.isRequired
+};
 
   $parcel$ReactRefreshHelpers$35bf.postlude(module);
 } finally {
   window.$RefreshReg$ = prevRefreshReg;
   window.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-runtime":"8xIwr","react":"6TuXu","../movie-card/movie-card":"6EiBJ","../movie-view/movie-view":"ikZdr","@parcel/transformer-js/src/esmodule-helpers.js":"11S9z","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"8CbOX","axios":"jaQ9E","../login-view/login-view":"054li"}],"6EiBJ":[function(require,module,exports) {
+},{"react/jsx-runtime":"8xIwr","react":"6TuXu","../movie-card/movie-card":"6EiBJ","../movie-view/movie-view":"ikZdr","@parcel/transformer-js/src/esmodule-helpers.js":"11S9z","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"8CbOX","axios":"jaQ9E","../login-view/login-view":"054li","prop-types":"1tgq3"}],"6EiBJ":[function(require,module,exports) {
 var $parcel$ReactRefreshHelpers$4249 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
 var prevRefreshReg = window.$RefreshReg$;
 var prevRefreshSig = window.$RefreshSig$;
