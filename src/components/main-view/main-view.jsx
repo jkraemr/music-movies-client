@@ -1,7 +1,11 @@
 //  Import React into the file + allow to create new instances of the generic React.Component component
 import React from 'react';
+// Axios is a promise-based HTTP Client for node.js and the browser, here used to fetch the movies, then set the state of movues using "this.setState"
+import axios from 'axios';
 
-// Import statements to import MovieCard / MovieView components into MainView component
+// Import statements to import LoginView / MovieCard / MovieView components into MainView component
+// LoginView is imported into MainView at the top of the code as it will need to get the user details from the MainView, to pass the user details to LoginView
+import { LoginView } from '../login-view/login-view';
 import { MovieCard } from '../movie-card/movie-card';
 import { MovieView } from '../movie-view/movie-view';
 
@@ -10,21 +14,39 @@ import { MovieView } from '../movie-view/movie-view';
 // MainView = component's name
 // React.Component = template/blueprint for creating new components
 export class MainView extends React.Component {
-  // constructor method = React uses this method to create the component. The code inside it will be the first thing to be executed for a component, hence this method represents the moment a component is created in the memory.
+  // constructor method = React uses this method to create the component. The code inside it will be the first thing to be executed for a component, hence this method represents the moment a component is created in the memory
+  // constructor() method is the starting point of any class component
   constructor() {
-    // super = initializes the component's state = needed when component needs a local state, may otherwise be ommited
+    // super = initializes the component's state = needed when component needs a local state, may otherwise be ommited. super() calls tbe parent React.Component's constructor which will give the class the actual React component's features. Also initializes the component's 'this' variable. Calling super()is mandatory whenever the constructor() methods will be included. 
     super();
+    // code executed right when the component is created in the memory, happens before "rendering" the component
+
+    // After super() method any extra code can be added which needs to be exectured the moment the component is created. 
+    // Only with constructor() method implemented, any extra code can be included to be executed at the point where the component is created (e.g. initialize the state of component with default values)
+
     // Component's state = set of variables with special rules which a) serve to store data so that it can be used later on, b) represent what the UI should look like
     this.state = {
       // Starting value of the MainView state is initialized with an object containing movies that holds an array of movies
-      movies: [
-        { _id: 1, Title: 'Pulse', Description: 'Pulse is a concert video by Pink Floyd of their 20 October 1994 concert at Earls Court, London, England during The Division Bell Tour. It was originally released on VHS and Laserdisc in June 1995, with a DVD release coming in July 2006, the latter release containing numerous bonus features.', ImagePath: '...' },
-        { _id: 2, Title: 'Pink Floyd: Live at Pompeii', Description: 'Pink Floyd: Live at Pompeii is a 1972 concert documentary film directed by Adrian Maben and featuring the English rock group Pink Floyd performing at the ancient Roman amphitheatre in Pompeii, Italy.', ImagePath: '...' },
-        { _id: 3, Title: 'Control', Description: 'Control is a 2007 British biographical film about the life of Ian Curtis, singer of the late-1970s English post-punk band Joy Division. It is the first feature film directed by Anton Corbijn, who had worked with Joy Division as a photographer.', ImagePath: '...' }
-      ],
+      movies: [],
       // Add new state variable into this copoment's state object called selectedMovie, initial value is null which tells the app that no movie vards were clicked, if there is a click, selectedMovie is updated to refer to the movie object that was clicked
-      selectedMovie: null
+      selectedMovie: null,
+      // user property is initialized to null in the state (default is logged out), When the app is first run or when a user has logged out, there is no user that is logged in, hence setting the user to null.
+      user: null
     };
+  }
+
+  // code executed right after the component is added to the DOM
+  // good place to add a) code for performing async tasks such as making ajax requests or adding event listeners, e.g. fetch list of movies from database when MainView is mounted b) key bindings (event listeners for events such as "keydown", "keyup")
+  componentDidMount() {
+    axios.get('https://mymusicmovies.herokuapp.com/movies')
+      .then(response => {
+        this.setState({
+          movies: response.data
+        });
+      })
+      .catch(error => {
+        console.log(error);
+      });
   }
 
   setSelectedMovie(newSelectedMovie) {
@@ -33,18 +55,31 @@ export class MainView extends React.Component {
       selectedMovie: newSelectedMovie
     });
   }
+  // onLoggedIn() method will be passed as a prop with the same name to LoginView (does not need to be the same name), method will update the 'user' state of the MainView component and will be called when the user has successfully logged in
+  // LoginView is rendered as long as there is no user in the state, as the 'user' property will be null in the MainView state.
+  onLoggedIn(user) {
+    this.setState({
+      user
+    });
+  }
 
+  // render() method is the only mandatory method for a component, so long as a component has a render() method, it is a class component
   // render(); function returns the visual representation of the component, renders what is displayed on screen using JSX, can only have one root element (fix/wrap several root elements with <React.Fragment></React.Fragment> or shorthand <></>)
   render() {
     // const { movies, selectedMovie } = this.state is ES 6 featured called "object destruction"
     // Add state (selectedMovie) as a flag to decide whether to render a specific part of the UI (MovieView) in the MainView component
-    const { movies, selectedMovie } = this.state;
+    const { movies, selectedMovie, user } = this.state;
+
+    // If there is no user, the LoginView is rendered. If there is a user logged in, the user details are passed as a prop to the LoginView
+    if (!user) return <LoginView onLoggedIn={user => this.onLoggedIn(user)} />;
 
     // JSX: assign classes to elements with className opposed to class
-    if (movies.length === 0) return <div className='main-view'>No movies listed yet.</div>;
+    // Returned div only displays an empty <div className='main-view' /> rather than the earlier message "List is empty" which is even a better/simpler solution than displaying "Loading" etc.
+    if (movies.length === 0) return <div className='main-view' />;
 
     return (
       <div className='main-view'>
+        {/* if the state of 'selectedMovie' is not null,ehge selected movie will be returned, otherwise all movies will be returned */}
         {selectedMovie
           ? <MovieView movie={selectedMovie} onBackClick={newSelectedMovie => { this.setSelectedMovie(newSelectedMovie); }} />
           // map() method = maps through the movies array, for each element in an array
