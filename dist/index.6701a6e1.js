@@ -22864,7 +22864,7 @@ class MainView extends _reactDefault.default.Component {
     }
 }
 // propTypes
-_movieView.MovieView.propTypes = {
+MainView.propTypes = {
     movie: _propTypesDefault.default.shape({
         _id: _propTypesDefault.default.string.isRequired,
         Title: _propTypesDefault.default.string.isRequired,

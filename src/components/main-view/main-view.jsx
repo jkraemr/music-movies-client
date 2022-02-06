@@ -97,7 +97,7 @@ export class MainView extends React.Component {
 }
 
 // propTypes
-MovieView.propTypes = {
+MainView.propTypes = {
   movie: PropTypes.shape({
     _id: PropTypes.string.isRequired,
     Title: PropTypes.string.isRequired,
