@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
+import './login-view.scss';
 
 export function LoginView(props) {
   const [username, SetUsername] = useState('');
@@ -7,75 +9,40 @@ export function LoginView(props) {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(username, password);
-    /* send a request to the server for authentication */
-    /* then call props.onLoggedIn(username) */
+    // send auth request to server
+    // then call props.onLoggedIn(username)
     props.onLoggedIn(username);
   };
 
+  const handleRegistration = () => {
+    props.onRegister(true);
+  };
+
   return (
-    <form>
-      <label>
-        Username:
-        <input type="text" value={username} onChange={e => SetUsername(e.target.value)} />
-      </label>
-      <label>
-        Password:
-        <input type="password" value={username} onChange={e => setPasswqord(e.target.value)} />
-      </label>
-      <button type="submit" onClick={handleSubmit} Submit></button>
-    </form>
+    <div className='login-view'>
+      <h1>Welcome to myMusicMovies</h1>
+      <h2>Login</h2>
+
+      <form className="login-form">
+        <label>
+          Username:
+          <input type="text" value={username} onChange={e => SetUsername(e.target.value)} />
+        </label>
+        <label>
+          Password:
+          <input type="password" value={password} onChange={e => setPassword(e.target.value)} />
+        </label>
+        <button type="submit" onClick={handleSubmit} Submit>Login</button>
+      </form>
+      <h2>No account yet?</h2>
+      <button type="button" onClick={handleRegistration}>Register</button>
+    </div>
   );
 }
 
-// import React from 'react';
-
-// export class LoginView extends React.Component {
-//   constructor(props) {
-//     super(props);
-
-//     this.state = {
-//       username: '',
-//       password: ''
-//     };
-
-//     this.onUserNameChange = this.onUserNameChange.bind(this);
-//     this.onPasswordChange = this.onPasswordChange.bind(this);
-//     this.handleSubmit = this.handleSubmit.bind(this);
-//   }
-
-//   onUserNameChange(event) {
-//     this.setState({
-//       username.event.target.value
-//     });
-//   }
-
-//   onPasswordChange(event) {
-//     this.setState({
-//       password: event.target.value
-//     });
-//   }
-
-//   handleSubmit() {
-//     const { username, password } = this.state;
-//     console.log(username, password);
-//     // send a request to the server for authentication
-//     // then call this.props.onLoggedIn(username)
-//     // this.props.onLoggedIn(username);
-//   }
-
-//   render() {
-//     return (
-//       <form>
-//         <label>
-//           Username:
-//           <input type="text" value={this.state.username} onChange={this.onUserNameChange} />
-//         </label>
-//         <label>
-//           Password:
-//           <input type="password" value={this.state.password} onChange={this.onPasswordChange} />
-//         </label>
-//         <button type="button" onClick={this.handleSubmit}>Submit</button>
-//       </form>
-//     );
-//   }
-// }
+// propTypes
+LoginView.propTypes = {
+  Username: PropTypes.string,
+  Password: PropTypes.string,
+  onClick: PropTypes.func
+};
