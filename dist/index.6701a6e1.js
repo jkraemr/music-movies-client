@@ -22739,47 +22739,28 @@ $parcel$ReactRefreshHelpers$35bf.prelude(module);
 try {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
-// export keyword = exposes MainView component, make it available (importable) for use by other components, modules, files
-// class keyword states that component is a class component (opposed to a function component)
-// MainView = component's name
-// React.Component = template/blueprint for creating new components
 parcelHelpers.export(exports, "MainView", ()=>MainView
 );
 var _jsxRuntime = require("react/jsx-runtime");
-//  Import React into the file + allow to create new instances of the generic React.Component component
 var _react = require("react");
 var _reactDefault = parcelHelpers.interopDefault(_react);
-var _propTypes = require("prop-types");
-var _propTypesDefault = parcelHelpers.interopDefault(_propTypes);
-// Axios is a promise-based HTTP Client for node.js and the browser, here used to fetch the movies, then set the state of movues using "this.setState"
 var _axios = require("axios");
 var _axiosDefault = parcelHelpers.interopDefault(_axios);
-// Import statements to import LoginView / MovieCard / MovieView components into MainView component
-// LoginView is imported into MainView at the top of the code as it will need to get the user details from the MainView, to pass the user details to LoginView
+var _mainViewScss = require("./main-view.scss");
 var _loginView = require("../login-view/login-view");
+var _registrationView = require("../registration-view/registration-view");
 var _movieCard = require("../movie-card/movie-card");
 var _movieView = require("../movie-view/movie-view");
 class MainView extends _reactDefault.default.Component {
-    // constructor method = React uses this method to create the component. The code inside it will be the first thing to be executed for a component, hence this method represents the moment a component is created in the memory
-    // constructor() method is the starting point of any class component
     constructor(){
-        // super = initializes the component's state = needed when component needs a local state, may otherwise be ommited. super() calls tbe parent React.Component's constructor which will give the class the actual React component's features. Also initializes the component's 'this' variable. Calling super()is mandatory whenever the constructor() methods will be included. 
         super();
-        // code executed right when the component is created in the memory, happens before "rendering" the component
-        // After super() method any extra code can be added which needs to be exectured the moment the component is created. 
-        // Only with constructor() method implemented, any extra code can be included to be executed at the point where the component is created (e.g. initialize the state of component with default values)
-        // Component's state = set of variables with special rules which a) serve to store data so that it can be used later on, b) represent what the UI should look like
         this.state = {
-            // Starting value of the MainView state is initialized with an object containing movies that holds an array of movies
             movies: [],
-            // Add new state variable into this copoment's state object called selectedMovie, initial value is null which tells the app that no movie vards were clicked, if there is a click, selectedMovie is updated to refer to the movie object that was clicked
             selectedMovie: null,
-            // user property is initialized to null in the state (default is logged out), When the app is first run or when a user has logged out, there is no user that is logged in, hence setting the user to null.
+            registered: false,
             user: null
         };
     }
-    // code executed right after the component is added to the DOM
-    // good place to add a) code for performing async tasks such as making ajax requests or adding event listeners, e.g. fetch list of movies from database when MainView is mounted b) key bindings (event listeners for events such as "keydown", "keyup")
     componentDidMount() {
         _axiosDefault.default.get('https://mymusicmovies.herokuapp.com/movies').then((response)=>{
             this.setState({
@@ -22790,41 +22771,49 @@ class MainView extends _reactDefault.default.Component {
         });
     }
     setSelectedMovie(newSelectedMovie) {
-        // To change a state, React requuires the this.setState method which always takes an object that contains the new value that is supposed to be assigned to a spcific state in the form of a key-value pair:
         this.setState({
             selectedMovie: newSelectedMovie
         });
     }
-    // onLoggedIn() method will be passed as a prop with the same name to LoginView (does not need to be the same name), method will update the 'user' state of the MainView component and will be called when the user has successfully logged in
-    // LoginView is rendered as long as there is no user in the state, as the 'user' property will be null in the MainView state.
     onLoggedIn(user) {
         this.setState({
             user
         });
     }
-    // render() method is the only mandatory method for a component, so long as a component has a render() method, it is a class component
-    // render(); function returns the visual representation of the component, renders what is displayed on screen using JSX, can only have one root element (fix/wrap several root elements with <React.Fragment></React.Fragment> or shorthand <></>)
+    onRegister(registered) {
+        this.setState({
+            registered
+        });
+    }
     render() {
-        // const { movies, selectedMovie } = this.state is ES 6 featured called "object destruction"
-        // Add state (selectedMovie) as a flag to decide whether to render a specific part of the UI (MovieView) in the MainView component
-        const { movies , selectedMovie , user  } = this.state;
-        // If there is no user, the LoginView is rendered. If there is a user logged in, the user details are passed as a prop to the LoginView
-        if (!user) return(/*#__PURE__*/ _jsxRuntime.jsx(_loginView.LoginView, {
+        const { movies , selectedMovie , user , registered  } = this.state;
+        if (registered) return(/*#__PURE__*/ _jsxRuntime.jsx(_registrationView.RegistrationView, {
             onLoggedIn: (user1)=>this.onLoggedIn(user1)
+            ,
+            onRegister: (newUser)=>this.onRegister(newUser)
             ,
             __source: {
                 fileName: "src/components/main-view/main-view.jsx",
-                lineNumber: 75
+                lineNumber: 55
             },
             __self: this
         }));
-        // JSX: assign classes to elements with className opposed to class
-        // Returned div only displays an empty <div className='main-view' /> rather than the earlier message "List is empty" which is even a better/simpler solution than displaying "Loading" etc.
+        if (!user) return(/*#__PURE__*/ _jsxRuntime.jsx(_loginView.LoginView, {
+            onLoggedIn: (user1)=>this.onLoggedIn(user1)
+            ,
+            onRegister: (newUser)=>this.onRegister(newUser)
+            ,
+            __source: {
+                fileName: "src/components/main-view/main-view.jsx",
+                lineNumber: 63
+            },
+            __self: this
+        }));
         if (movies.length === 0) return(/*#__PURE__*/ _jsxRuntime.jsx("div", {
             className: "main-view",
             __source: {
                 fileName: "src/components/main-view/main-view.jsx",
-                lineNumber: 79
+                lineNumber: 69
             },
             __self: this
         }));
@@ -22832,7 +22821,7 @@ class MainView extends _reactDefault.default.Component {
             className: "main-view",
             __source: {
                 fileName: "src/components/main-view/main-view.jsx",
-                lineNumber: 82
+                lineNumber: 72
             },
             __self: this,
             children: selectedMovie ? /*#__PURE__*/ _jsxRuntime.jsx(_movieView.MovieView, {
@@ -22842,20 +22831,17 @@ class MainView extends _reactDefault.default.Component {
                 },
                 __source: {
                     fileName: "src/components/main-view/main-view.jsx",
-                    lineNumber: 85
+                    lineNumber: 75
                 },
                 __self: this
-            }) : movies.map((movie)=>// key = helps React to distinguish between similar elements in list / find respective element that needs to be changed, needed when there is a list of elements of the same type rendered next to each other, here a list of <div></div> elements), uses unique ID property of each movie
-                // movie={movie} = custom attribute called 'props' which passes data to a child component, here: use movie data within the MovieCard component, the movie object is passed from each iteration of the map() function to <MovieCard key={movie._id} />
-                // To change the state, a function from the MainView component is passed to <MovieCard /> as a prop that executes this.state.selectedMovie = movie;. This way this.state.selectedMovie will be identifiable by its owner, the MainView. Also, it will rightfully change its own state once the function is called
-                /*#__PURE__*/ _jsxRuntime.jsx(_movieCard.MovieCard, {
+            }) : movies.map((movie)=>/*#__PURE__*/ _jsxRuntime.jsx(_movieCard.MovieCard, {
                     movie: movie,
                     onMovieClick: (movie1)=>{
                         this.setSelectedMovie(movie1);
                     },
                     __source: {
                         fileName: "src/components/main-view/main-view.jsx",
-                        lineNumber: 91
+                        lineNumber: 77
                     },
                     __self: this
                 }, movie._id)
@@ -22865,23 +22851,23 @@ class MainView extends _reactDefault.default.Component {
 }
 // propTypes
 MainView.propTypes = {
-    movie: _propTypesDefault.default.shape({
-        _id: _propTypesDefault.default.string.isRequired,
-        Title: _propTypesDefault.default.string.isRequired,
-        Description: _propTypesDefault.default.string.isRequired,
-        Genre: _propTypesDefault.default.shape({
-            Name: _propTypesDefault.default.string.isRequired,
-            Description: _propTypesDefault.default.string.isRequired
+    movies: PropTypes.arrayOf(PropTypes.string),
+    selectedMovie: PropTypes.shape({
+        _id: PropTypes.string.isRequired,
+        Title: PropTypes.string.isRequired,
+        Description: PropTypes.string.isRequired,
+        Genre: PropTypes.shape({
+            Name: PropTypes.string.isRequired,
+            Description: PropTypes.string.isRequired
         }).isRequired,
-        Director: _propTypesDefault.default.shape({
-            Name: _propTypesDefault.default.string.isRequired,
-            Bio: _propTypesDefault.default.string,
-            Birth: _propTypesDefault.default.string
+        Director: PropTypes.shape({
+            Name: PropTypes.string.isRequired,
+            Bio: PropTypes.string,
+            Birth: PropTypes.string
         }).isRequired,
-        ImagePath: _propTypesDefault.default.string.isRequired,
-        Featured: _propTypesDefault.default.bool.isRequired
-    }).isRequired,
-    onBackClick: _propTypesDefault.default.func.isRequired
+        ImagePath: PropTypes.string.isRequired,
+        Featured: PropTypes.bool.isRequired
+    })
 };
 
   $parcel$ReactRefreshHelpers$35bf.postlude(module);
@@ -22889,7 +22875,7 @@ MainView.propTypes = {
   window.$RefreshReg$ = prevRefreshReg;
   window.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-runtime":"8xIwr","react":"6TuXu","../movie-card/movie-card":"6EiBJ","../movie-view/movie-view":"ikZdr","@parcel/transformer-js/src/esmodule-helpers.js":"11S9z","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"8CbOX","axios":"jaQ9E","../login-view/login-view":"054li","prop-types":"1tgq3"}],"6EiBJ":[function(require,module,exports) {
+},{"react/jsx-runtime":"8xIwr","react":"6TuXu","../movie-card/movie-card":"6EiBJ","../movie-view/movie-view":"ikZdr","@parcel/transformer-js/src/esmodule-helpers.js":"11S9z","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"8CbOX","axios":"jaQ9E","../login-view/login-view":"054li","./main-view.scss":"jyMAr","../registration-view/registration-view":"aP2YV"}],"6EiBJ":[function(require,module,exports) {
 var $parcel$ReactRefreshHelpers$4249 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
 var prevRefreshReg = window.$RefreshReg$;
 var prevRefreshSig = window.$RefreshSig$;
@@ -22905,6 +22891,7 @@ var _react = require("react");
 var _reactDefault = parcelHelpers.interopDefault(_react);
 var _propTypes = require("prop-types");
 var _propTypesDefault = parcelHelpers.interopDefault(_propTypes);
+var _movieCardScss = require("./movie-card.scss");
 class MovieCard extends _reactDefault.default.Component {
     render() {
         // props are used to pass data from a parent component's (e.g., MainView) state to one of its child components (this one), here to extract data, get the passed data by accessing a props property, similar to how the data are accessed from this.state
@@ -22919,7 +22906,7 @@ class MovieCard extends _reactDefault.default.Component {
             },
             __source: {
                 fileName: "src/components/movie-card/movie-card.jsx",
-                lineNumber: 12
+                lineNumber: 13
             },
             __self: this,
             children: movie.Title
@@ -22943,7 +22930,7 @@ MovieCard.propTypes = {
   window.$RefreshReg$ = prevRefreshReg;
   window.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-runtime":"8xIwr","react":"6TuXu","@parcel/transformer-js/src/esmodule-helpers.js":"11S9z","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"8CbOX","prop-types":"1tgq3"}],"11S9z":[function(require,module,exports) {
+},{"react/jsx-runtime":"8xIwr","react":"6TuXu","@parcel/transformer-js/src/esmodule-helpers.js":"11S9z","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"8CbOX","prop-types":"1tgq3","./movie-card.scss":"cF5gT"}],"11S9z":[function(require,module,exports) {
 exports.interopDefault = function(a) {
     return a && a.__esModule ? a : {
         default: a
@@ -23789,7 +23776,7 @@ printWarning = function(text) {
 };
 module.exports = checkPropTypes;
 
-},{"./lib/ReactPropTypesSecret":"lYuBM","./lib/has":"9e9z2"}],"ikZdr":[function(require,module,exports) {
+},{"./lib/ReactPropTypesSecret":"lYuBM","./lib/has":"9e9z2"}],"cF5gT":[function() {},{}],"ikZdr":[function(require,module,exports) {
 var $parcel$ReactRefreshHelpers$3741 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
 var prevRefreshReg = window.$RefreshReg$;
 var prevRefreshSig = window.$RefreshSig$;
@@ -23805,6 +23792,7 @@ var _react = require("react");
 var _reactDefault = parcelHelpers.interopDefault(_react);
 var _propTypes = require("prop-types");
 var _propTypesDefault = parcelHelpers.interopDefault(_propTypes);
+var _movieViewScss = require("./movie-view.scss");
 // Component that expects a prop ( named movie ), prop represents the movie object which will be passed in MainView, component will render whatever properties in the movie object are passed as a prop (here the properties: movie.Title, movie.Description, movie.ImagePath)
 let imgURL = './img/';
 class MovieView extends _reactDefault.default.Component {
@@ -23824,7 +23812,7 @@ class MovieView extends _reactDefault.default.Component {
             className: "movie-view",
             __source: {
                 fileName: "src/components/movie-view/movie-view.jsx",
-                lineNumber: 25
+                lineNumber: 27
             },
             __self: this,
             children: [
@@ -23832,7 +23820,7 @@ class MovieView extends _reactDefault.default.Component {
                     className: "movie-image",
                     __source: {
                         fileName: "src/components/movie-view/movie-view.jsx",
-                        lineNumber: 26
+                        lineNumber: 28
                     },
                     __self: this,
                     children: /*#__PURE__*/ _jsxRuntime.jsx("img", {
@@ -23840,7 +23828,7 @@ class MovieView extends _reactDefault.default.Component {
                         width: "300",
                         __source: {
                             fileName: "src/components/movie-view/movie-view.jsx",
-                            lineNumber: 27
+                            lineNumber: 29
                         },
                         __self: this
                     })
@@ -23849,7 +23837,7 @@ class MovieView extends _reactDefault.default.Component {
                     className: "movie-title",
                     __source: {
                         fileName: "src/components/movie-view/movie-view.jsx",
-                        lineNumber: 29
+                        lineNumber: 31
                     },
                     __self: this,
                     children: [
@@ -23857,7 +23845,7 @@ class MovieView extends _reactDefault.default.Component {
                             className: "label",
                             __source: {
                                 fileName: "src/components/movie-view/movie-view.jsx",
-                                lineNumber: 30
+                                lineNumber: 32
                             },
                             __self: this,
                             children: "Title: "
@@ -23866,7 +23854,7 @@ class MovieView extends _reactDefault.default.Component {
                             className: "value",
                             __source: {
                                 fileName: "src/components/movie-view/movie-view.jsx",
-                                lineNumber: 31
+                                lineNumber: 33
                             },
                             __self: this,
                             children: movie.Title
@@ -23877,7 +23865,7 @@ class MovieView extends _reactDefault.default.Component {
                     className: "movie-description",
                     __source: {
                         fileName: "src/components/movie-view/movie-view.jsx",
-                        lineNumber: 33
+                        lineNumber: 35
                     },
                     __self: this,
                     children: [
@@ -23885,7 +23873,7 @@ class MovieView extends _reactDefault.default.Component {
                             className: "label",
                             __source: {
                                 fileName: "src/components/movie-view/movie-view.jsx",
-                                lineNumber: 34
+                                lineNumber: 36
                             },
                             __self: this,
                             children: "Description: "
@@ -23894,7 +23882,7 @@ class MovieView extends _reactDefault.default.Component {
                             className: "value",
                             __source: {
                                 fileName: "src/components/movie-view/movie-view.jsx",
-                                lineNumber: 35
+                                lineNumber: 37
                             },
                             __self: this,
                             children: movie.Description
@@ -23905,7 +23893,7 @@ class MovieView extends _reactDefault.default.Component {
                     className: "movie-genre-name",
                     __source: {
                         fileName: "src/components/movie-view/movie-view.jsx",
-                        lineNumber: 37
+                        lineNumber: 39
                     },
                     __self: this,
                     children: [
@@ -23913,7 +23901,7 @@ class MovieView extends _reactDefault.default.Component {
                             className: "label",
                             __source: {
                                 fileName: "src/components/movie-view/movie-view.jsx",
-                                lineNumber: 38
+                                lineNumber: 40
                             },
                             __self: this,
                             children: "Genre: "
@@ -23922,7 +23910,7 @@ class MovieView extends _reactDefault.default.Component {
                             className: "value",
                             __source: {
                                 fileName: "src/components/movie-view/movie-view.jsx",
-                                lineNumber: 39
+                                lineNumber: 41
                             },
                             __self: this,
                             children: movie.Genre.Name
@@ -23933,7 +23921,7 @@ class MovieView extends _reactDefault.default.Component {
                     className: "movie-genre-description",
                     __source: {
                         fileName: "src/components/movie-view/movie-view.jsx",
-                        lineNumber: 41
+                        lineNumber: 43
                     },
                     __self: this,
                     children: [
@@ -23941,7 +23929,7 @@ class MovieView extends _reactDefault.default.Component {
                             className: "label",
                             __source: {
                                 fileName: "src/components/movie-view/movie-view.jsx",
-                                lineNumber: 42
+                                lineNumber: 44
                             },
                             __self: this,
                             children: "Genre Description: "
@@ -23950,7 +23938,7 @@ class MovieView extends _reactDefault.default.Component {
                             className: "value",
                             __source: {
                                 fileName: "src/components/movie-view/movie-view.jsx",
-                                lineNumber: 43
+                                lineNumber: 45
                             },
                             __self: this,
                             children: movie.Genre.Description
@@ -23961,7 +23949,7 @@ class MovieView extends _reactDefault.default.Component {
                     className: "movie-director-name",
                     __source: {
                         fileName: "src/components/movie-view/movie-view.jsx",
-                        lineNumber: 45
+                        lineNumber: 47
                     },
                     __self: this,
                     children: [
@@ -23969,7 +23957,7 @@ class MovieView extends _reactDefault.default.Component {
                             className: "label",
                             __source: {
                                 fileName: "src/components/movie-view/movie-view.jsx",
-                                lineNumber: 46
+                                lineNumber: 48
                             },
                             __self: this,
                             children: "Director: "
@@ -23978,7 +23966,7 @@ class MovieView extends _reactDefault.default.Component {
                             className: "value",
                             __source: {
                                 fileName: "src/components/movie-view/movie-view.jsx",
-                                lineNumber: 47
+                                lineNumber: 49
                             },
                             __self: this,
                             children: movie.Director.Name
@@ -23989,7 +23977,7 @@ class MovieView extends _reactDefault.default.Component {
                     className: "movie-director-bio",
                     __source: {
                         fileName: "src/components/movie-view/movie-view.jsx",
-                        lineNumber: 49
+                        lineNumber: 51
                     },
                     __self: this,
                     children: [
@@ -23997,7 +23985,7 @@ class MovieView extends _reactDefault.default.Component {
                             className: "label",
                             __source: {
                                 fileName: "src/components/movie-view/movie-view.jsx",
-                                lineNumber: 50
+                                lineNumber: 52
                             },
                             __self: this,
                             children: "Bio: "
@@ -24006,7 +23994,7 @@ class MovieView extends _reactDefault.default.Component {
                             className: "value",
                             __source: {
                                 fileName: "src/components/movie-view/movie-view.jsx",
-                                lineNumber: 51
+                                lineNumber: 53
                             },
                             __self: this,
                             children: movie.Director.Bio
@@ -24017,7 +24005,7 @@ class MovieView extends _reactDefault.default.Component {
                     className: "movie-director-birth",
                     __source: {
                         fileName: "src/components/movie-view/movie-view.jsx",
-                        lineNumber: 53
+                        lineNumber: 55
                     },
                     __self: this,
                     children: [
@@ -24025,7 +24013,7 @@ class MovieView extends _reactDefault.default.Component {
                             className: "label",
                             __source: {
                                 fileName: "src/components/movie-view/movie-view.jsx",
-                                lineNumber: 54
+                                lineNumber: 56
                             },
                             __self: this,
                             children: "Birth Year: "
@@ -24034,7 +24022,7 @@ class MovieView extends _reactDefault.default.Component {
                             className: "value",
                             __source: {
                                 fileName: "src/components/movie-view/movie-view.jsx",
-                                lineNumber: 55
+                                lineNumber: 57
                             },
                             __self: this,
                             children: movie.Director.Birth
@@ -24047,7 +24035,7 @@ class MovieView extends _reactDefault.default.Component {
                     },
                     __source: {
                         fileName: "src/components/movie-view/movie-view.jsx",
-                        lineNumber: 57
+                        lineNumber: 59
                     },
                     __self: this,
                     children: "Back"
@@ -24082,7 +24070,7 @@ MovieView.propTypes = {
   window.$RefreshReg$ = prevRefreshReg;
   window.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-runtime":"8xIwr","react":"6TuXu","@parcel/transformer-js/src/esmodule-helpers.js":"11S9z","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"8CbOX","prop-types":"1tgq3"}],"jaQ9E":[function(require,module,exports) {
+},{"react/jsx-runtime":"8xIwr","react":"6TuXu","@parcel/transformer-js/src/esmodule-helpers.js":"11S9z","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"8CbOX","prop-types":"1tgq3","./movie-view.scss":"kvL93"}],"kvL93":[function() {},{}],"jaQ9E":[function(require,module,exports) {
 module.exports = require('./lib/axios');
 
 },{"./lib/axios":"iCIoz"}],"iCIoz":[function(require,module,exports) {
@@ -25653,55 +25641,13 @@ try {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "LoginView", ()=>LoginView
-) // import React from 'react';
- // export class LoginView extends React.Component {
- //   constructor(props) {
- //     super(props);
- //     this.state = {
- //       username: '',
- //       password: ''
- //     };
- //     this.onUserNameChange = this.onUserNameChange.bind(this);
- //     this.onPasswordChange = this.onPasswordChange.bind(this);
- //     this.handleSubmit = this.handleSubmit.bind(this);
- //   }
- //   onUserNameChange(event) {
- //     this.setState({
- //       username.event.target.value
- //     });
- //   }
- //   onPasswordChange(event) {
- //     this.setState({
- //       password: event.target.value
- //     });
- //   }
- //   handleSubmit() {
- //     const { username, password } = this.state;
- //     console.log(username, password);
- //     // send a request to the server for authentication
- //     // then call this.props.onLoggedIn(username)
- //     // this.props.onLoggedIn(username);
- //   }
- //   render() {
- //     return (
- //       <form>
- //         <label>
- //           Username:
- //           <input type="text" value={this.state.username} onChange={this.onUserNameChange} />
- //         </label>
- //         <label>
- //           Password:
- //           <input type="password" value={this.state.password} onChange={this.onPasswordChange} />
- //         </label>
- //         <button type="button" onClick={this.handleSubmit}>Submit</button>
- //       </form>
- //     );
- //   }
- // }
-;
+);
 var _jsxRuntime = require("react/jsx-runtime");
 var _react = require("react");
 var _reactDefault = parcelHelpers.interopDefault(_react);
+var _propTypes = require("prop-types");
+var _propTypesDefault = parcelHelpers.interopDefault(_propTypes);
+var _loginViewScss = require("./login-view.scss");
 var _s = $RefreshSig$();
 function LoginView(props) {
     _s();
@@ -25710,72 +25656,129 @@ function LoginView(props) {
     const handleSubmit = (e)=>{
         e.preventDefault();
         console.log(username, password);
-        /* send a request to the server for authentication */ /* then call props.onLoggedIn(username) */ props.onLoggedIn(username);
+        // send auth request to server
+        // then call props.onLoggedIn(username)
+        props.onLoggedIn(username);
     };
-    return(/*#__PURE__*/ _jsxRuntime.jsxs("form", {
+    const handleRegistration = ()=>{
+        props.onRegister(true);
+    };
+    return(/*#__PURE__*/ _jsxRuntime.jsxs("div", {
+        className: "login-view",
         __source: {
             fileName: "src/components/login-view/login-view.jsx",
-            lineNumber: 16
+            lineNumber: 22
         },
         __self: this,
         children: [
-            /*#__PURE__*/ _jsxRuntime.jsxs("label", {
+            /*#__PURE__*/ _jsxRuntime.jsx("h1", {
                 __source: {
                     fileName: "src/components/login-view/login-view.jsx",
-                    lineNumber: 17
+                    lineNumber: 23
+                },
+                __self: this,
+                children: "Welcome to myMusicMovies"
+            }),
+            /*#__PURE__*/ _jsxRuntime.jsx("h2", {
+                __source: {
+                    fileName: "src/components/login-view/login-view.jsx",
+                    lineNumber: 24
+                },
+                __self: this,
+                children: "Login"
+            }),
+            /*#__PURE__*/ _jsxRuntime.jsxs("form", {
+                className: "login-form",
+                __source: {
+                    fileName: "src/components/login-view/login-view.jsx",
+                    lineNumber: 26
                 },
                 __self: this,
                 children: [
-                    "Username:",
-                    /*#__PURE__*/ _jsxRuntime.jsx("input", {
-                        type: "text",
-                        value: username,
-                        onChange: (e)=>SetUsername(e.target.value)
-                        ,
+                    /*#__PURE__*/ _jsxRuntime.jsxs("label", {
                         __source: {
                             fileName: "src/components/login-view/login-view.jsx",
-                            lineNumber: 19
+                            lineNumber: 27
                         },
-                        __self: this
+                        __self: this,
+                        children: [
+                            "Username:",
+                            /*#__PURE__*/ _jsxRuntime.jsx("input", {
+                                type: "text",
+                                value: username,
+                                onChange: (e)=>SetUsername(e.target.value)
+                                ,
+                                __source: {
+                                    fileName: "src/components/login-view/login-view.jsx",
+                                    lineNumber: 29
+                                },
+                                __self: this
+                            })
+                        ]
+                    }),
+                    /*#__PURE__*/ _jsxRuntime.jsxs("label", {
+                        __source: {
+                            fileName: "src/components/login-view/login-view.jsx",
+                            lineNumber: 31
+                        },
+                        __self: this,
+                        children: [
+                            "Password:",
+                            /*#__PURE__*/ _jsxRuntime.jsx("input", {
+                                type: "password",
+                                value: password,
+                                onChange: (e)=>setPassword(e.target.value)
+                                ,
+                                __source: {
+                                    fileName: "src/components/login-view/login-view.jsx",
+                                    lineNumber: 33
+                                },
+                                __self: this
+                            })
+                        ]
+                    }),
+                    /*#__PURE__*/ _jsxRuntime.jsx("button", {
+                        type: "submit",
+                        onClick: handleSubmit,
+                        Submit: true,
+                        __source: {
+                            fileName: "src/components/login-view/login-view.jsx",
+                            lineNumber: 35
+                        },
+                        __self: this,
+                        children: "Login"
                     })
                 ]
             }),
-            /*#__PURE__*/ _jsxRuntime.jsxs("label", {
+            /*#__PURE__*/ _jsxRuntime.jsx("h2", {
                 __source: {
                     fileName: "src/components/login-view/login-view.jsx",
-                    lineNumber: 21
+                    lineNumber: 37
                 },
                 __self: this,
-                children: [
-                    "Password:",
-                    /*#__PURE__*/ _jsxRuntime.jsx("input", {
-                        type: "password",
-                        value: username,
-                        onChange: (e)=>setPasswqord(e.target.value)
-                        ,
-                        __source: {
-                            fileName: "src/components/login-view/login-view.jsx",
-                            lineNumber: 23
-                        },
-                        __self: this
-                    })
-                ]
+                children: "No account yet?"
             }),
             /*#__PURE__*/ _jsxRuntime.jsx("button", {
-                type: "submit",
-                onClick: handleSubmit,
-                Submit: true,
+                type: "button",
+                onClick: handleRegistration,
                 __source: {
                     fileName: "src/components/login-view/login-view.jsx",
-                    lineNumber: 25
+                    lineNumber: 38
                 },
-                __self: this
+                __self: this,
+                children: "Register"
             })
         ]
     }));
 }
 _s(LoginView, "0LIdWdb6WpGmBsvQFrAnsEPNsQo=");
 _c = LoginView;
+// propTypes
+LoginView.propTypes = {
+    Username: _propTypesDefault.default.string,
+    Password: _propTypesDefault.default.string,
+    onClick: _propTypesDefault.default.func
+};
 var _c;
 $RefreshReg$(_c, "LoginView");
 
@@ -25784,6 +25787,209 @@ $RefreshReg$(_c, "LoginView");
   window.$RefreshReg$ = prevRefreshReg;
   window.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-runtime":"8xIwr","react":"6TuXu","@parcel/transformer-js/src/esmodule-helpers.js":"11S9z","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"8CbOX"}],"jUTZ8":[function() {},{}]},["bNEwE","dn1oH","dLPEP"], "dLPEP", "parcelRequirecd0a")
+},{"react/jsx-runtime":"8xIwr","react":"6TuXu","@parcel/transformer-js/src/esmodule-helpers.js":"11S9z","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"8CbOX","prop-types":"1tgq3","./login-view.scss":"lS4BK"}],"lS4BK":[function() {},{}],"jyMAr":[function() {},{}],"aP2YV":[function(require,module,exports) {
+var $parcel$ReactRefreshHelpers$8dd4 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
+var prevRefreshReg = window.$RefreshReg$;
+var prevRefreshSig = window.$RefreshSig$;
+$parcel$ReactRefreshHelpers$8dd4.prelude(module);
+
+try {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "RegistrationView", ()=>RegistrationView
+);
+var _jsxRuntime = require("react/jsx-runtime");
+var _react = require("react");
+var _reactDefault = parcelHelpers.interopDefault(_react);
+var _propTypes = require("prop-types");
+var _propTypesDefault = parcelHelpers.interopDefault(_propTypes);
+var _registrationViewScss = require("./registration-view.scss");
+var _s = $RefreshSig$();
+function RegistrationView(props) {
+    _s();
+    const [username, SetUsername] = _react.useState('');
+    const [password, setPassword] = _react.useState('');
+    const [passwordrep, setPasswordRep] = _react.useState("");
+    const [email, setEmail] = _react.useState('');
+    const [birthday, setBirthday] = _react.useState('');
+    const handleSubmit = (e)=>{
+        e.preventDefault();
+        console.log(username, password, passwordrep, email, birthday);
+        // send auth request to server
+        // then call props.onLoggedIn(username)
+        props.onLoggedIn(username);
+    };
+    return(/*#__PURE__*/ _jsxRuntime.jsxs("div", {
+        className: "registration-view",
+        __source: {
+            fileName: "src/components/registration-view/registration-view.jsx",
+            lineNumber: 23
+        },
+        __self: this,
+        children: [
+            /*#__PURE__*/ _jsxRuntime.jsx("h1", {
+                __source: {
+                    fileName: "src/components/registration-view/registration-view.jsx",
+                    lineNumber: 25
+                },
+                __self: this,
+                children: "Welcome to myMusicMovies"
+            }),
+            /*#__PURE__*/ _jsxRuntime.jsx("h2", {
+                __source: {
+                    fileName: "src/components/registration-view/registration-view.jsx",
+                    lineNumber: 27
+                },
+                __self: this,
+                children: "Create your free account"
+            }),
+            /*#__PURE__*/ _jsxRuntime.jsxs("form", {
+                className: "registration-form",
+                __source: {
+                    fileName: "src/components/registration-view/registration-view.jsx",
+                    lineNumber: 29
+                },
+                __self: this,
+                children: [
+                    /*#__PURE__*/ _jsxRuntime.jsx("label", {
+                        className: "registration-form__label",
+                        __source: {
+                            fileName: "src/components/registration-view/registration-view.jsx",
+                            lineNumber: 31
+                        },
+                        __self: this,
+                        children: "Username:"
+                    }),
+                    /*#__PURE__*/ _jsxRuntime.jsx("input", {
+                        className: "registration-form__input",
+                        type: "text",
+                        value: username,
+                        onChange: (e)=>SetUsername(e.target.value)
+                        ,
+                        __source: {
+                            fileName: "src/components/registration-view/registration-view.jsx",
+                            lineNumber: 34
+                        },
+                        __self: this
+                    }),
+                    /*#__PURE__*/ _jsxRuntime.jsx("label", {
+                        className: "registration-form__label",
+                        __source: {
+                            fileName: "src/components/registration-view/registration-view.jsx",
+                            lineNumber: 35
+                        },
+                        __self: this,
+                        children: "Password:"
+                    }),
+                    /*#__PURE__*/ _jsxRuntime.jsx("input", {
+                        className: "registration-form__input",
+                        type: "password",
+                        value: password,
+                        onChange: (e)=>setPassword(e.target.value)
+                        ,
+                        __source: {
+                            fileName: "src/components/registration-view/registration-view.jsx",
+                            lineNumber: 38
+                        },
+                        __self: this
+                    }),
+                    /*#__PURE__*/ _jsxRuntime.jsx("label", {
+                        className: "registration-form__label",
+                        __source: {
+                            fileName: "src/components/registration-view/registration-view.jsx",
+                            lineNumber: 39
+                        },
+                        __self: this,
+                        children: "Re-enter Password:"
+                    }),
+                    /*#__PURE__*/ _jsxRuntime.jsx("input", {
+                        className: "registration-form__input",
+                        type: "password",
+                        value: passwordrep,
+                        onChange: (e)=>setPasswordRep(e.target.value)
+                        ,
+                        __source: {
+                            fileName: "src/components/registration-view/registration-view.jsx",
+                            lineNumber: 42
+                        },
+                        __self: this
+                    }),
+                    /*#__PURE__*/ _jsxRuntime.jsx("label", {
+                        className: "registration-form__label",
+                        __source: {
+                            fileName: "src/components/registration-view/registration-view.jsx",
+                            lineNumber: 43
+                        },
+                        __self: this,
+                        children: "Email:"
+                    }),
+                    /*#__PURE__*/ _jsxRuntime.jsx("input", {
+                        className: "registration-form__input",
+                        type: "email",
+                        value: email,
+                        onChange: (e)=>setEmail(e.target.value)
+                        ,
+                        __source: {
+                            fileName: "src/components/registration-view/registration-view.jsx",
+                            lineNumber: 46
+                        },
+                        __self: this
+                    }),
+                    /*#__PURE__*/ _jsxRuntime.jsx("label", {
+                        className: "registration-form__label",
+                        __source: {
+                            fileName: "src/components/registration-view/registration-view.jsx",
+                            lineNumber: 47
+                        },
+                        __self: this,
+                        children: "Password:"
+                    }),
+                    /*#__PURE__*/ _jsxRuntime.jsx("input", {
+                        className: "registration-form__input",
+                        type: "date",
+                        value: birthday,
+                        onChange: (e)=>setBirthday(e.target.value)
+                        ,
+                        __source: {
+                            fileName: "src/components/registration-view/registration-view.jsx",
+                            lineNumber: 50
+                        },
+                        __self: this
+                    }),
+                    /*#__PURE__*/ _jsxRuntime.jsx("button", {
+                        type: "submit",
+                        onClick: handleSubmit,
+                        __source: {
+                            fileName: "src/components/registration-view/registration-view.jsx",
+                            lineNumber: 51
+                        },
+                        __self: this,
+                        children: "Create Account"
+                    })
+                ]
+            })
+        ]
+    }));
+}
+_s(RegistrationView, "wQH5Sk27rRTn0doKh0gwDWvP1e8=");
+_c = RegistrationView;
+// propTypes
+RegistrationView.propTypes = {
+    Username: _propTypesDefault.default.string,
+    Password: _propTypesDefault.default.string,
+    PasswordRep: _propTypesDefault.default.string,
+    Email: _propTypesDefault.default.string,
+    Birthday: _propTypesDefault.default.instanceOf(Date),
+    onCLick: _propTypesDefault.default.func
+};
+var _c;
+$RefreshReg$(_c, "RegistrationView");
+
+  $parcel$ReactRefreshHelpers$8dd4.postlude(module);
+} finally {
+  window.$RefreshReg$ = prevRefreshReg;
+  window.$RefreshSig$ = prevRefreshSig;
+}
+},{"react/jsx-runtime":"8xIwr","react":"6TuXu","prop-types":"1tgq3","@parcel/transformer-js/src/esmodule-helpers.js":"11S9z","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"8CbOX","./registration-view.scss":"fr9ZP"}],"fr9ZP":[function() {},{}],"jUTZ8":[function() {},{}]},["bNEwE","dn1oH","dLPEP"], "dLPEP", "parcelRequirecd0a")
 
 //# sourceMappingURL=index.6701a6e1.js.map

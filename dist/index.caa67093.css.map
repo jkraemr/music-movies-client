@@ -1,1 +1,1 @@
-{"mappings":"AAEA;EACE,OAHM","sources":["src/index.scss"],"sourcesContent":["$color: steelblue;\n\n.my-music-movies {\n  color: $color;\n}"],"names":[],"version":3,"file":"index.caa67093.css.map","sourceRoot":"/__parcel_source_root/"}
+{"mappings":"AAOA;EACE,OARS","sources":["src/index.scss"],"sourcesContent":["$color-01: steelblue;\n// $bg-color-01: rgb(9, 14, 19);\n\n// body {\n//   background-color: $bg-color-01;\n// }\n\n.main-view {\n  color: $color-01;\n}"],"names":[],"version":3,"file":"index.caa67093.css.map","sourceRoot":"/__parcel_source_root/"}
