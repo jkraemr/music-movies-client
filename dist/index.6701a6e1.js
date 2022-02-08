@@ -22877,7 +22877,7 @@ MainView.propTypes = {
   window.$RefreshReg$ = prevRefreshReg;
   window.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-runtime":"8xIwr","react":"6TuXu","../movie-card/movie-card":"6EiBJ","../movie-view/movie-view":"ikZdr","@parcel/transformer-js/src/esmodule-helpers.js":"11S9z","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"8CbOX","axios":"jaQ9E","../login-view/login-view":"054li","./main-view.scss":"jyMAr","../registration-view/registration-view":"aP2YV","prop-types":"1tgq3"}],"6EiBJ":[function(require,module,exports) {
+},{"react/jsx-runtime":"8xIwr","react":"6TuXu","../movie-card/movie-card":"6EiBJ","../movie-view/movie-view":"ikZdr","@parcel/transformer-js/src/esmodule-helpers.js":"11S9z","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"8CbOX","axios":"jaQ9E","../login-view/login-view":"054li","prop-types":"1tgq3","./main-view.scss":"jyMAr","../registration-view/registration-view":"aP2YV"}],"6EiBJ":[function(require,module,exports) {
 var $parcel$ReactRefreshHelpers$4249 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
 var prevRefreshReg = window.$RefreshReg$;
 var prevRefreshSig = window.$RefreshSig$;
@@ -25992,6 +25992,6 @@ $RefreshReg$(_c, "RegistrationView");
   window.$RefreshReg$ = prevRefreshReg;
   window.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-runtime":"8xIwr","react":"6TuXu","prop-types":"1tgq3","@parcel/transformer-js/src/esmodule-helpers.js":"11S9z","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"8CbOX","./registration-view.scss":"fr9ZP"}],"fr9ZP":[function() {},{}],"jUTZ8":[function() {},{}]},["bNEwE","dn1oH","dLPEP"], "dLPEP", "parcelRequirecd0a")
+},{"react/jsx-runtime":"8xIwr","react":"6TuXu","prop-types":"1tgq3","./registration-view.scss":"fr9ZP","@parcel/transformer-js/src/esmodule-helpers.js":"11S9z","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"8CbOX"}],"fr9ZP":[function() {},{}],"jUTZ8":[function() {},{}]},["bNEwE","dn1oH","dLPEP"], "dLPEP", "parcelRequirecd0a")
 
 //# sourceMappingURL=index.6701a6e1.js.map
