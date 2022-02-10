@@ -1,1 +1,17 @@
 // login-view.scss
+$bg-color-01: #18191A;
+
+.login-view {
+  background-color: $bg-color-01;
+}
+// .login-view__side-col {
+// background-color: $bg-color-01;
+// }
+
+.login-view__main-col {
+  margin: 1em;
+}
+
+.form-label {
+  margin-top: 1em;;
+}
