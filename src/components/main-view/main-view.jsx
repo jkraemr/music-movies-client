@@ -28,16 +28,26 @@ export class MainView extends React.Component {
   }
 
   componentDidMount() {
-    axios.get('https://mymusicmovies.herokuapp.com/movies')
-      .then(response => {
-        this.setState({
-          movies: response.data
-        });
-      })
-      .catch(error => {
-        console.log(error);
+    let accessToken = localStorage.getItem('token');
+    if (accessToken !== null) {
+      this.setState({
+        user: localStorage.getItem('user')
       });
+      this.getMovies(accessToken);
+    }
   }
+
+  // componentDidMount() {
+  //   axios.get('https://mymusicmovies.herokuapp.com/movies')
+  //     .then(response => {
+  //       this.setState({
+  //         movies: response.data
+  //       });
+  //     })
+  //     .catch(error => {
+  //       console.log(error);
+  //     });
+  // }
 
   setSelectedMovie(newSelectedMovie) {
     this.setState({
@@ -45,10 +55,38 @@ export class MainView extends React.Component {
     });
   }
 
-  onLoggedIn(user) {
+  onLoggedIn(authData) {
+    console.log(authData);
     this.setState({
-      user
+      user: authData.user.Username
     });
+
+    localStorage.setItem('token', authData.token);
+    localStorage.setItem('user', authData.user.Username);
+    this.getMovies(authData.token)
+  }
+
+  onLoggedOut() {
+    localStorage.removeItem('token');
+    localStorage.removeItem('token');
+    this.setState({
+      user: null
+    });
+  }
+
+  getMovies(token) {
+    axios.get('https://mymusicmovies.herokuapp.com/movies', {
+      headers: { Authorization: `Bearer ${token}` }
+    })
+      .then(response => {
+        // Assign the result to the state
+        this.setState({
+          movies: response.data
+        });
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
   }
 
   onRegister(registered) {
@@ -88,7 +126,7 @@ export class MainView extends React.Component {
               <Nav.Link>All Movies</Nav.Link>
               <Nav.Link>My Favorites</Nav.Link>
               <Nav.Link>My Account</Nav.Link>
-              <Nav.Link>Logout</Nav.Link>
+              <Nav.Link onClick={() => { this.onLoggedOut() }}>Logout</Nav.Link>
             </Nav>
           </Container>
         </Navbar>

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 import PropTypes from 'prop-types';
 
 import Row from 'react-bootstrap/Row';
@@ -18,10 +19,19 @@ export function LoginView(props) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(username, password);
     // send auth request to server
-    // then call props.onLoggedIn(username)
-    props.onLoggedIn(username);
+    axios.post('https://mymusicmovies.herokuapp.com/login', {
+      Username: username,
+      Password: password
+    })
+      .then(response => {
+        const data = response.data;
+        props.onLoggedIn(data);
+      })
+      .catch(e => {
+        console.log('no such user found')
+      });
+
   };
 
   const handleRegistration = () => {
@@ -37,7 +47,7 @@ export function LoginView(props) {
           <Navbar.Brand>myMusicMovies</Navbar.Brand>
           <Nav>
             <Nav.Link onClick={handleRegistration}>Register</Nav.Link>
-            <Nav.Link>Login</Nav.Link>
+            <Nav.Link onClick={handleSubmit}>Login</Nav.Link>
           </Nav>
         </Container>
       </Navbar>
@@ -59,18 +69,20 @@ export function LoginView(props) {
                 <Form>
                   <Form.Group controlId='formUsername'>
                     <Form.Label>Username:</Form.Label>
-                    <Form.Control type='text' onChange={e => setUsername(e.target.value)} />
+                    <Form.Control type='text' value={username} onChange={e => setUsername(e.target.value)} />
                   </Form.Group>
 
                   <Form.Group controlId='formPassword'>
                     <Form.Label>Password:</Form.Label>
-                    <Form.Control type='password' onChange={e => setPassword(e.target.value)} />
+                    <Form.Control type='password' value={password} onChange={e => setPassword(e.target.value)} />
                   </Form.Group>
                   <br />
                   <Button variant='info' type='submit' onClick={handleSubmit}>Login</Button>
                 </Form >
+
                 <br />
                 <br />
+
                 <Card.Title>Create account</Card.Title>
                 <Card.Text>Register now to create your free account!</Card.Text>
                 <Button variant="info" type="button" onClick={handleRegistration}>Register
@@ -81,35 +93,8 @@ export function LoginView(props) {
           <Col className='login-view__side-col'></Col>
         </Row>
       </Container>
-      {/* 
-
-      <Row>
-        <Col className='login-view__side-col'></Col>
-
-        <Col className='login-view__main-col' sm={6} md={4} lg={3} xl={2}>
-          <Form>
-            <Form.Group controlId='formUsername'>
-              <Form.Label>Username:</Form.Label>
-              <Form.Control type='text' onChange={e => setUsername(e.target.value)} />
-            </Form.Group>
-
-            <Form.Group controlId='formPassword'>
-              <Form.Label>Password:</Form.Label>
-              <Form.Control type='password' onChange={e => setPassword(e.target.value)} />
-            </Form.Group>
-            <br />
-            <Button variant='info' type='submit' onClick={handleSubmit}>Submit</Button>
-          </Form >
-        </Col>
-
-        <Col className='login-view__side-col'></Col>
-      </Row> */}
-
 
     </div>
-
-
-
   );
 }
 
