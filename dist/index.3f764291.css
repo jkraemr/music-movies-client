@@ -1,9 +1,52 @@
-
-
-
-.main-view {
-  color: steelblue;
+* {
+  box-sizing: border-box;
+}
+.card-title {
+  font-size: 2.2em !important;
 }
 
+h2 {
+  font-size: 1.1em !important;
+}
 
+.accordion-button {
+  background-color: #1F8496;
+  color: #fff;
+  padding: 0.7em;
+  margin: 0.5em 0;
+  border: none;
+  border-radius: 0.2em;
+  cursor: pointer;
+}
+
+.accordion-body {
+  margin: 0 0 1em;
+}
+.login-view {
+  background-color: #18191A;
+}
+
+.login-view__main-col {
+  margin: 1em;
+}
+
+.form-label {
+  margin-top: 1em;
+}
+* {
+  box-sizing: border-box;
+}
+
+.main-view {
+  background-color: #18191A !important;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  padding: 2em;
+  background-color: #18191A !important;
+}
 /*# sourceMappingURL=index.3f764291.css.map */
