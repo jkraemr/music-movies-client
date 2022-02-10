@@ -1,5 +1,17 @@
-$color: steelblue;
+* {
+  box-sizing: border-box;
+}
+
+$color-01: #18191A;
+$color-02: rgb(192, 132, 64);
+
+// body {
+//   padding: 1.5em;
+//   background-color: $color-02 !important;
+// }
 
 .main-view {
-  color: $color;
+  background-color: $color-01 !important;
+  // padding: 3em;
 }
+
