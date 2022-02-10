@@ -1,5 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import Button from 'react-bootstrap/Button';
+import Card from 'react-bootstrap/Card';
+import Accordion from 'react-bootstrap/Accordion'
 import './movie-view.scss';
 
 // Component that expects a prop ( named movie ), prop represents the movie object which will be passed in MainView, component will render whatever properties in the movie object are passed as a prop (here the properties: movie.Title, movie.Description, movie.ImagePath)
@@ -24,8 +30,57 @@ export class MovieView extends React.Component {
   render() {
     const { movie, onBackClick } = this.props;
     return (
+
       <div className='movie-view'>
-        <div className='movie-image'>
+
+        <Row>
+          <Col>
+            <Card className='movie-view-card card-columns bg-dark text-white'>
+              <Card.Body>
+                <Card.Title>{movie.Title}</Card.Title>
+                <Card.Text>{movie.Description}</Card.Text>
+
+
+                <Accordion alwaysOpen>
+                  <Accordion.Item eventKey="0">
+                    <Accordion.Header>Genre: {movie.Genre.Name}</Accordion.Header>
+                    <Accordion.Body>{movie.Genre.Description}</Accordion.Body>
+                  </Accordion.Item>
+                  <Accordion.Item eventKey="1">
+                    <Accordion.Header>Director: {movie.Director.Name}</Accordion.Header>
+                    <Accordion.Body>
+                      <div>{movie.Director.Bio}
+                      </div>
+                      <div>Born: {movie.Director.Birth}</div>
+                    </Accordion.Body>
+                  </Accordion.Item>
+                </Accordion>
+
+              </Card.Body>
+
+            </Card>
+
+          </Col>
+
+          <Col lg={4}>
+            <Card>
+              <Card.Img variant="top" src={imgURL + movie.ImagePath} />
+            </Card>
+          </Col>
+        </Row>
+
+        <br />
+        <br />
+
+        <Row>
+          <Col>
+            <Button variant="info" onClick={() => { onBackClick(null); }}>Back</Button>
+          </Col>
+        </Row>
+
+
+
+        {/* <div className='movie-image'>
           <img src={imgURL + movie.ImagePath} width="300" />
         </div>
         <div className='movie-title'>
@@ -56,8 +111,10 @@ export class MovieView extends React.Component {
           <span className='label'>Birth Year: </span>
           <span className='value'>{movie.Director.Birth}</span>
         </div>
-        <button onClick={() => { onBackClick(null); }}>Back</button>
-      </div>
+        <button onClick={() => { onBackClick(null); }}>Back</button> */}
+
+      </div >
+
     );
   }
 }
