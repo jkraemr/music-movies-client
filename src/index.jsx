@@ -1,14 +1,16 @@
 import React from 'react';
-import { Container } from 'react-bootstrap';
 import ReactDOM from 'react-dom';
+
 import { MainView } from './components/main-view/main-view';
+
+import Container from 'react-bootstrap/Container';
 import './index.scss';
 
 class MyMusicMoviesApplication extends React.Component {
   render() {
     return (
-      <Container>
-        <MainView />
+      <Container fluid="sm" className="bg-dark text-white">
+        <MainView className="bg-dark text-white" />
       </Container>
     );
   }

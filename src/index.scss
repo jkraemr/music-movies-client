@@ -1,1 +1,24 @@
-// index.scss
+$bg-color-01: #f525a5;
+
+* {
+  box-sizing: border-box;
+}
+
+// $color: rgb(192, 64, 115);
+$color-01: #18191A;
+
+
+body {
+  padding: 2em;
+  background-color: $color-01 !important;
+}
+
+.app-container {
+  // background-color: $color !important;
+  // padding: 3em;
+}
+
+// .movies-accordeon {
+//   background-color: aqua;
+// }
+
